@@ -80,6 +80,8 @@ Estados autorizados: COMPLETADO Y VERIFICADO, IMPLEMENTADO SIN VERIFICAR, PARCIA
 
 ## Método de evaluación
 
+Actualización de alcance: consulta externa RUC/DNI **PENDIENTE** y aplazada por el usuario. Las evidencias de autocompletado de esta matriz corresponden exclusivamente a búsquedas en clientes locales; no verifican consultas externas. Véase `pendientes.md`.
+
 La guía proporciona ponderaciones por categoría, pero no descriptores numéricos detallados dentro de cada una. Esta entrega usa trazabilidad binaria por requisito como evidencia de cumplimiento y conserva separada la calificación académica, que corresponde al evaluador. La cobertura automatizada no se interpreta como porcentaje de la rúbrica.
 
 Los porcentajes definitivos y los límites de verificación se registran en `docs/entrega.md`, después de ejecutar la verificación final. Una aceptación OSE mock no se cuenta como aceptación tributaria real.

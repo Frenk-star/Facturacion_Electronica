@@ -1,5 +1,7 @@
 # Nexo · Facturación electrónica académica
 
+**Pendiente acordado:** integrar una consulta externa de RUC/DNI. El autocompletado actual solo busca clientes locales; no obtiene datos externos ni inventa respuestas. Véase [alcance actual y pendientes](docs/pendientes.md).
+
 Aplicación Django existente `facturacion`, configurada en `FacturacionSunat`, ampliada con API REST y frontend de Django Templates, Bootstrap 5 local y JavaScript. Permite emitir facturas, boletas y notas de crédito con cálculo decimal, numeración transaccional, historial, XML académico, OSE simulado, PDF y libro de ventas.
 
 **No envía documentos a SUNAT. No proporciona una firma digital válida, CDR real ni homologación UBL.** El término «SUNAT-ready académico» describe la separación de reglas y transporte para un ejercicio educativo; no autoriza uso tributario real.

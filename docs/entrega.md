@@ -1,5 +1,7 @@
 # Informe de entrega y cumplimiento
 
+**Actualización de alcance:** queda pendiente la consulta externa de RUC/DNI, aplazada por el usuario. El autocompletado verificado en este informe es local. El cálculo de cumplimiento registrado más abajo corresponde a ese alcance anterior y no acredita la integración externa. El detalle vigente se encuentra en `docs/pendientes.md`.
+
 Se modificó el proyecto abierto, conservando `facturacion`, `FacturacionSunat`, nombres de modelos, puntos de entrada de servicios y las migraciones iniciales. El README original se sustituyó por documentación que refleja la implementación real. No se generó otra aplicación principal ni un frontend React.
 
 ## Estado por módulo
@@ -44,7 +46,7 @@ La fórmula es suma de `peso × fracción de requisitos trazados cumplidos` para
 
 ## Alcance y límites
 
-No quedan funcionalidades de la guía académica identificadas como pendientes en la matriz. La evidencia de navegador cubre Chromium en dos tamaños; no constituye una certificación universal de navegadores o accesibilidad. La numeración concurrente está verificada con PostgreSQL, no con SQLite. Los borradores se pueden guardar y emitir; la modificación posterior de sus líneas no se ofrece como una operación independiente.
+Queda pendiente la consulta externa de RUC/DNI indicada en la actualización de alcance. La evidencia de navegador cubre Chromium en dos tamaños; no constituye una certificación universal de navegadores o accesibilidad. La numeración concurrente está verificada con PostgreSQL, no con SQLite. Los borradores se pueden guardar y emitir; la modificación posterior de sus líneas no se ofrece como una operación independiente.
 
 El XML es una estructura académica basada en UBL 2.1 y **no está homologado contra XSD/Schematron SUNAT**. La marca de firma es textual y no criptográfica. No se emiten CDR reales ni se comunica con SUNAT/OSE real. Esas diferencias corresponden al mock solicitado y están documentadas, no se presentan como funcionalidades tributarias certificadas.
 

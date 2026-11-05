@@ -1,5 +1,21 @@
 # API REST
 
+## Rutas web adicionales (5 de noviembre de 2026)
+
+Estas rutas de `web_urls.py` usan sesión y CSRF, no JWT ni ViewSets DRF. Enviar
+formulario URL-encoded con `X-CSRFToken`; no se incluyen en el OpenAPI de DRF.
+
+| Método y ruta | Entrada | Rol | Resultado |
+|---|---|---|---|
+| `POST /clientes/consultar-ruc/` | `ruc`, 11 dígitos ASCII | ADMIN/EMISOR | `ruc`, `razon_social`, `direccion`, `estado`, `condicion`, `fuente` |
+| `POST /clientes/consultar-dni/` | `dni`, 8 dígitos ASCII | ADMIN/EMISOR | `dni`, `razon_social` (nombre completo), `fuente` |
+| `POST /configuracion/modo-emision/` | Sin parámetros necesarios | ADMIN | HTTP 409, `detail` con requisitos pendientes y `modo: PRUEBAS` |
+
+Las consultas no guardan clientes. Falta de sesión: redirección a login; rol no
+permitido: 403; GET: 405. Validación/errores de proveedor: 400/404/422/429 según
+el caso, 503 por configuración/autorización del proveedor o indisponibilidad,
+502 por respuesta inválida o red. Errores controlados contienen `detail`.
+
 Base `/api/`. Respuestas JSON, salvo PDF/XML/CSV/Excel. Paginación: 25 registros, `count`, `next`, `previous`, `results`; parámetro `page`. La empresa se obtiene de sesión o cabecera `X-Empresa-ID` después de comprobar acceso; sin selección se utiliza la primera empresa autorizada por ID.
 
 ## Autenticación

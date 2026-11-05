@@ -12,6 +12,13 @@ Los nombres y documentos incluidos en seed/tests son datos de demostración. Las
 
 `.gitignore` no elimina archivos que ya estuvieran versionados ni limpia commits anteriores. Antes de publicar, revisar los archivos incluidos y comprobar que ningún secreto real esté agregado al índice.
 
+Actualización del 5 de noviembre de 2026: se eliminaron reglas duplicadas y se
+añadieron respaldos de bases, archivos SQLite auxiliares, cobertura por proceso,
+reportes temporales de Playwright, cachés de herramientas, empaquetado Python y ZIP
+de la raíz. Se conservan `.env.example`, las migraciones, recursos fuente y las
+evidencias de documentación en `docs/evidencias/`. Los tokens reales de RUC/DNI
+permanecen en `.env` y los diagnósticos locales dentro de `.runtime/`, ambos excluidos.
+
 ## Historial anterior
 
 La auditoría detectó una clave de desarrollo de Django incrustada en commits anteriores del repositorio original. Esa clave ya no se utiliza en la configuración actual: se genera una clave local y se lee desde `.env`. El ZIP público preparado contiene únicamente los archivos actuales permitidos por Git, sin `.git`, historial, base ni configuración privada.

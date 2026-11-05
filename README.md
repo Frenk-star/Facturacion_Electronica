@@ -1,6 +1,6 @@
 # Nexo · Facturación electrónica académica
 
-**Pendiente acordado:** integrar una consulta externa de RUC/DNI. El autocompletado actual solo busca clientes locales; no obtiene datos externos ni inventa respuestas. Véase [alcance actual y pendientes](docs/pendientes.md).
+**Consultas externas de RUC y DNI preparadas:** botones en el formulario de clientes mediante ConsultadeRUC.pe (`RUC_API_TOKEN`) y Factiliza (`DNI_API_TOKEN`); requieren tokens y verificación en vivo. La emisión permanece simulada. Véase [configuración y límites](docs/integracion_real.md).
 
 Aplicación Django existente `facturacion`, configurada en `FacturacionSunat`, ampliada con API REST y frontend de Django Templates, Bootstrap 5 local y JavaScript. Permite emitir facturas, boletas y notas de crédito con cálculo decimal, numeración transaccional, historial, XML académico, OSE simulado, PDF y libro de ventas.
 

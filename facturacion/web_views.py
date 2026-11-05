@@ -2,16 +2,20 @@
 
 from functools import wraps
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from rest_framework.exceptions import APIException
 
+from .consulta_dni import ErrorConsultaDni, consultar_dni
+from .consulta_ruc import ErrorConsultaRuc, consultar_ruc
 from .forms import ClienteForm, ProductoForm
 from .models import Cliente, Comprobante, Empresa, Producto
 from .permissions import empresa_autorizada, rol_usuario
@@ -91,6 +95,22 @@ def dashboard(request):
         rechazados=estados.get("RECHAZADO", 0),
         pendientes=mes.filter(estado__in=["BORRADOR", "EMITIDO", "ENVIADO"]).count(),
         documentos=documentos.select_related("cliente").order_by("-fecha")[:8],
+    )
+
+
+@contexto_empresa
+@require_POST
+def cambiar_modo_emision(request):
+    if request.rol_empresa != "ADMIN":
+        raise PermissionDenied
+    return JsonResponse(
+        {
+            "detail": "No se puede activar la emisión real: faltan la integración de envío a SUNAT, "
+            "el certificado digital y las credenciales SOL. Las consultas DNI/RUC ya son reales. "
+            "Los comprobantes actuales no se envían a SUNAT.",
+            "modo": "PRUEBAS",
+        },
+        status=409,
     )
 
 
@@ -227,8 +247,35 @@ def _formulario(request, modelo, formulario, plantilla, destino, pk):
             messages.success(request, "Registro guardado correctamente.")
             return redirect(destino)
     return _render(
-        request, plantilla, titulo="Editar registro" if pk else "Nuevo registro", form=form
+        request,
+        plantilla,
+        titulo="Editar registro" if pk else "Nuevo registro",
+        form=form,
+        ruc_configurado=bool(settings.RUC_API_TOKEN),
+        dni_configurado=bool(settings.DNI_API_TOKEN),
     )
+
+
+@contexto_empresa
+@require_POST
+def consulta_dni(request):
+    if request.rol_empresa not in {"ADMIN", "EMISOR"}:
+        raise PermissionDenied
+    try:
+        return JsonResponse(consultar_dni(request.POST.get("dni", "")))
+    except ErrorConsultaDni as exc:
+        return JsonResponse({"detail": str(exc)}, status=exc.status)
+
+
+@contexto_empresa
+@require_POST
+def consulta_ruc(request):
+    if request.rol_empresa not in {"ADMIN", "EMISOR"}:
+        raise PermissionDenied
+    try:
+        return JsonResponse(consultar_ruc(request.POST.get("ruc", "")))
+    except ErrorConsultaRuc as exc:
+        return JsonResponse({"detail": str(exc)}, status=exc.status)
 
 
 @contexto_empresa

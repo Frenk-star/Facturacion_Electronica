@@ -37,6 +37,21 @@ Entrar desde el original o desde **Notas de crédito**. Buscar por serie/número
 
 ## Clientes y productos
 
+En Nuevo/Editar cliente, selecciona RUC, DNI o CE. Para RUC o DNI aparece **Buscar**
+junto a Número de documento. Escribe el número completo, revísalo y pulsa Buscar:
+escribir o corregir números no consume consultas. Se exige RUC de 11 dígitos o
+DNI de 8. RUC completa razón social y dirección disponible; DNI completa nombres
+y apellidos y conserva la dirección. Revisa los datos antes de Guardar cambios.
+El correo se ingresa manualmente. Si falta configurar la API se muestra un aviso
+y puedes completar el registro manualmente. CE se registra sin consulta externa.
+
+Las listas de selección de clientes y productos en Emitir comprobante ya no se
+recortan al sobrepasar la tarjeta. La búsqueda de esa pantalla sigue siendo local.
+
+El interruptor **Pruebas / Real** solicita habilitar emisión real. Solo ADMIN puede
+solicitarlo; actualmente informa los requisitos faltantes y vuelve a Pruebas.
+No envía comprobantes a SUNAT. Las consultas reales de documentos son independientes.
+
 Los listados consultan la base y permiten buscar, crear y editar. En clientes se valida longitud y tipo de documento y existe historial de comprobantes. En productos se registran código, descripción, unidad, precio final, afectación y estado. **Desactivar** requiere confirmación, conserva el historial y excluye el registro del autocompletado activo. Puede reactivarse editando **Activo**. El contador solo consulta.
 
 ## Libro de ventas

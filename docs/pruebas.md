@@ -2,6 +2,26 @@
 
 ## Alcance
 
+### Actualización del 5 de noviembre de 2026
+
+`python manage.py test facturacion.test_consulta_ruc facturacion.test_consulta_dni --noinput`:
+**9 pruebas aprobadas en SQLite**, sin incidencias de system check. Ruff aprobó los
+módulos revisados. Incluye contratos, formatos, ausencia de token, errores HTTP/red,
+permisos, POST, CSRF y rechazo de emisión real sin integración. No se recalculó
+cobertura ni se repitió la suite histórica completa de 64 pruebas.
+
+Consultas en vivo correctas: DNI `27427864` con Factiliza y RUC `20536066528` con
+ConsultadeRUC.pe. Inicialmente fallaban por `WinError 10013`: el entorno bloqueaba
+sockets externos. Funcionaron con red autorizada; se reinició el servidor con ese acceso.
+Estas llamadas usan los proveedores reales y pueden consumir cuota.
+
+Verificación puntual con Playwright y Edge/Chromium, escritorio 1440 × 1000:
+primer cliente visible, sin recorte, recibe clic y rellena `cliente-id` en `/emitir/`.
+Se comprobó `overflow: visible` en la tarjeta. El arreglo también se aplicó a productos;
+no se afirma selección de producto en esta comprobación puntual. No se reemplazaron
+capturas anteriores. La consulta automática se retiró; se revisó que las llamadas
+externas se ejecutan desde los clics de Buscar y no desde eventos de escritura.
+
 Las pruebas usan una base temporal creada por Django; no modifican los comprobantes de demostración de la base local. `tests.py` se conserva y contiene los escenarios principales. Los módulos complementarios `test_administracion.py`, `test_concurrencia.py` y `test_browser.py` evitan el conflicto entre un archivo `tests.py` y un paquete `tests/` con el mismo nombre.
 
 | Módulo | Escenarios principales |

@@ -1,1 +1,10 @@
-{% extends 'facturacion/base.html' %}{% block content %}{% url 'clientes' as cancelar_url %}{% include 'facturacion/_formulario.html' %}{% endblock %}
+{% extends 'facturacion/base.html' %}{% load static %}{% block content %}
+<section class="panel p-3 mb-3" id="consulta-cliente" data-ruc-configurado="{{ ruc_configurado|yesno:'true,false' }}" data-dni-configurado="{{ dni_configurado|yesno:'true,false' }}">
+<h2>Datos del cliente</h2>
+<p>Selecciona el tipo de documento y escribe el número en el formulario. La consulta se realiza automáticamente al completar los dígitos si el nombre está vacío.</p>
+<p class="small text-secondary mt-2 mb-0">RUC mediante ConsultadeRUC.pe y DNI mediante Factiliza, proveedores independientes. Requieren token. Revisa los datos antes de guardar; la emisión no se envía a SUNAT.</p>
+{% if not ruc_configurado or not dni_configurado %}<p class="alert alert-warning mt-3 mb-0">Consulta automática pendiente de activación: {% if not ruc_configurado %}RUC sin configurar. {% endif %}{% if not dni_configurado %}DNI sin configurar. {% endif %}Puedes registrar los datos manualmente.</p>{% endif %}
+<p id="consulta-ruc-estado" class="mt-2 mb-0" role="status"></p>
+</section>
+{% url 'clientes' as cancelar_url %}{% include 'facturacion/_formulario.html' %}{% endblock %}
+{% block scripts %}<script src="{% static 'facturacion/js/consulta_ruc.js' %}" defer></script><script src="{% static 'facturacion/js/consulta_dni.js' %}" defer></script><script src="{% static 'facturacion/js/cliente_form.js' %}" defer></script>{% endblock %}

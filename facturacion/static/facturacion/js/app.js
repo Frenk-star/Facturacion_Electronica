@@ -1,4 +1,12 @@
 'use strict';
+document.getElementById('modo-real')?.addEventListener('change', async event => {
+  const control = event.currentTarget;
+  control.disabled = true;
+  try {
+    await Nexo.api(control.dataset.url, {method: 'POST', body: '{}'});
+  } catch (error) { Nexo.message(error.message); }
+  finally { control.checked = false; control.disabled = false; }
+});
 window.Nexo = {
   csrf() { return document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''; },
   money(value) { return `S/ ${Number(value).toFixed(2)}`; },

@@ -4,6 +4,20 @@ La matriz relaciona requisitos del enunciado con código y evidencias ejecutable
 
 Estados autorizados: COMPLETADO Y VERIFICADO, IMPLEMENTADO SIN VERIFICAR, PARCIAL, PENDIENTE. Verificado significa implementado con evidencia específica; no implica homologación SUNAT ni cobertura absoluta de todos los entornos.
 
+## Ampliaciones del 5 de noviembre de 2026
+
+| Requisito | Implementación | Evidencia | Estado |
+|---|---|---|---|
+| Consulta RUC externa | `consulta_ruc.py`, ruta web, Buscar | Pruebas `test_consulta_ruc.py` y consulta en vivo | COMPLETADO Y VERIFICADO |
+| Consulta DNI externa | `consulta_dni.py`, ruta web, Buscar | Pruebas `test_consulta_dni.py` y consulta en vivo | COMPLETADO Y VERIFICADO |
+| Buscar manual y etiquetas por documento | `cliente_form.js`, `forms.py`, `_formulario.html` | Revisión de manejadores; sin consulta al escribir | COMPLETADO Y VERIFICADO |
+| Desplegable de clientes sin recorte | `.panel-autocomplete` en CSS y `emitir.html` | Playwright/Edge: visible, recibe clic y selecciona cliente | COMPLETADO Y VERIFICADO |
+| Solicitud de modo real | `cambiar_modo_emision`, `app.js` | ADMIN, POST y HTTP 409 comprobados | PARCIAL: informa bloqueo, no activa producción |
+| Emisión tributaria real | UBL, firma, transporte, CDR y modalidad aplicable | Sin implementación ni prueba productiva | PENDIENTE |
+
+Estos resultados complementan la matriz original; no actualizan las cifras de
+cobertura o puntuación de la entrega histórica. Véase [pruebas](pruebas.md).
+
 | ID | Requisito | Módulo | Archivo | Prueba | Estado |
 |---|---|---|---|---|---|
 | M01 | Empresa | Modelos | facturacion/models.py | test_empresa_edicion | COMPLETADO Y VERIFICADO |
@@ -80,7 +94,7 @@ Estados autorizados: COMPLETADO Y VERIFICADO, IMPLEMENTADO SIN VERIFICAR, PARCIA
 
 ## Método de evaluación
 
-Actualización de alcance: consulta externa RUC/DNI **PENDIENTE** y aplazada por el usuario. Las evidencias de autocompletado de esta matriz corresponden exclusivamente a búsquedas en clientes locales; no verifican consultas externas. Véase `pendientes.md`.
+Actualización de alcance: consultas externas RUC/DNI completadas y verificadas en vivo, documentadas en la ampliación de esta matriz. Las evidencias históricas de autocompletado corresponden a búsquedas locales; las nuevas pruebas de consulta se registran por separado en [pruebas](pruebas.md). Emisión real pendiente.
 
 La guía proporciona ponderaciones por categoría, pero no descriptores numéricos detallados dentro de cada una. Esta entrega usa trazabilidad binaria por requisito como evidencia de cumplimiento y conserva separada la calificación académica, que corresponde al evaluador. La cobertura automatizada no se interpreta como porcentaje de la rúbrica.
 

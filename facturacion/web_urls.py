@@ -6,6 +6,7 @@ from django.urls import path
 from . import web_views as web
 
 urlpatterns = [
+    path("configuracion/modo-emision/", web.cambiar_modo_emision, name="cambiar_modo_emision"),
     path("configuracion/", web.configuracion, name="configuracion"),
     path(
         "login/",
@@ -21,6 +22,8 @@ urlpatterns = [
     path("comprobantes/<int:pk>/voucher/", web.voucher, name="voucher"),
     path("notas-credito/", web.nota_credito, name="nota_credito"),
     path("clientes/", web.clientes, name="clientes"),
+    path("clientes/consultar-ruc/", web.consulta_ruc, name="consulta_ruc"),
+    path("clientes/consultar-dni/", web.consulta_dni, name="consulta_dni"),
     path("clientes/nuevo/", web.cliente_form, name="cliente_nuevo"),
     path("clientes/<int:pk>/", web.cliente_detalle, name="cliente_detalle"),
     path("clientes/<int:pk>/editar/", web.cliente_form, name="cliente_editar"),

@@ -17,6 +17,8 @@ Bootstrap 5.3.3 se entrega localmente en `static/facturacion/vendor/bootstrap.mi
 | POSTGRES_USER / POSTGRES_PASSWORD | Credenciales del motor |
 | POSTGRES_HOST / POSTGRES_PORT | Servidor y puerto, por defecto localhost:5432 |
 | DEMO_PASSWORD | Opcional, solo al crear usuarios demo; preferir generación aleatoria |
+| RUC_API_TOKEN | Bearer privado de ConsultadeRUC.pe para consultas RUC |
+| DNI_API_TOKEN | Bearer privado de Factiliza para consultas DNI |
 | RUN_BROWSER_TESTS | `1` habilita pruebas optativas con Playwright |
 | PLAYWRIGHT_BROWSERS_PATH | Ubicación opcional de navegadores instalados |
 

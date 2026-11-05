@@ -1,5 +1,19 @@
 # Seguridad y autorización multiempresa
 
+## Consultas externas y modo de emisión (5 de noviembre de 2026)
+
+Los tokens RUC/DNI se guardan en entorno privado/`.env`, nunca en Git o navegador.
+Django llama por HTTPS a URLs fijas con timeout de 10 segundos. Se exige sesión,
+empresa autorizada, rol ADMIN/EMISOR, POST y CSRF. CONTADOR no puede consultar.
+Las respuestas DNI expuestas se limitan a documento, nombre y fuente; no se
+entregan domicilio, fecha de nacimiento ni sexo del proveedor. Se revisan los datos
+antes de guardar. Solo Buscar llama a la API: escribir o corregir no consume cuota.
+
+Solicitar modo real requiere ADMIN; responde HTTP 409 y mantiene Pruebas mientras
+falte la integración. Las consultas de identificación no habilitan emisión ni
+validez tributaria. Resolver permisos de red del proceso ante `WinError 10013`;
+no desactivar TLS ni revelar tokens en diagnósticos.
+
 ## Identidad y ámbito
 
 SimpleJWT autentica integradores; Django Authentication y sesiones autentican pantallas. Las contraseñas se almacenan con los hashers de Django. La creación de cuentas locales aplica los validadores de contraseña configurados. Los JWT no se guardan en localStorage en el frontend: este utiliza cookies de sesión y CSRF.

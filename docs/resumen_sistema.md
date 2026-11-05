@@ -43,7 +43,7 @@ Se conservan Empresa, SerieComprobante, Cliente, Producto, Comprobante, DetalleC
 
 Los precios **incluyen IGV**. El descuento es monetario por línea. Para productos gravados, `total = cantidad × precio − descuento`, `base = total / 1.18` e `IGV = total − base`; para no gravados, IGV cero. El backend recalcula y no acepta totales manipulados por el navegador.
 
-Factura exige RUC numérico de 11 dígitos. Boleta admite DNI de 8 dígitos; el catálogo también contempla CE. No se consulta existencia de documentos en entidades externas.
+Factura exige RUC numérico de 11 dígitos. Boleta admite DNI de 8 dígitos; el catálogo también contempla CE. Clientes permite consultar RUC mediante ConsultadeRUC.pe y DNI mediante Factiliza pulsando Buscar junto al número. Ambas integraciones se comprobaron en vivo; la selección de clientes en emisión sigue consultando el catálogo local. No hay consulta automática al escribir.
 
 La numeración es automática por empresa/tipo/serie. En PostgreSQL se bloquean filas dentro de una transacción; un rollback revierte documento y contador. Los borradores no consumen números y los reenvíos conservan la identidad original. Las claves de idempotencia evitan duplicar solicitudes lógicas.
 

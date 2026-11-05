@@ -1,0 +1,40 @@
+{% load static %}<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ titulo|default:'Facturación' }} · Nexo</title>
+<link href="{% static 'facturacion/vendor/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'facturacion/css/styles.css' %}" rel="stylesheet">
+</head><body>
+<a class="visually-hidden-focusable" href="#contenido">Ir al contenido</a>
+<div class="app-layout"><aside class="sidebar" id="sidebar">
+<button type="button" id="menu-close" class="btn btn-sm btn-outline-light d-lg-none align-self-end" aria-label="Cerrar menú">×</button>
+<a class="brand" href="{% url 'dashboard' %}"><span class="brand-icon">N</span> nexo<span class="brand-dot">.</span></a>
+<div class="sidebar-label">ESPACIO DE TRABAJO</div>
+<nav aria-label="Navegación principal">
+<a href="{% url 'dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}class="active" aria-current="page"{% endif %}><span aria-hidden="true">◫</span> Resumen</a>
+{% if puede_emitir %}<a href="{% url 'emitir' %}" {% if request.resolver_match.url_name == 'emitir' %}class="active"{% endif %}><span aria-hidden="true">＋</span> Emitir comprobante</a>{% endif %}
+<a href="{% url 'comprobantes' %}" {% if request.resolver_match.url_name == 'comprobantes' %}class="active"{% endif %}><span aria-hidden="true">▤</span> Comprobantes</a>
+{% if puede_emitir %}<a href="{% url 'nota_credito' %}"><span aria-hidden="true">↶</span> Notas de crédito</a>{% endif %}
+<div class="sidebar-label">GESTIÓN</div>
+<a href="{% url 'clientes' %}"><span aria-hidden="true">♙</span> Clientes</a>
+<a href="{% url 'productos' %}"><span aria-hidden="true">◇</span> Productos y servicios</a>
+<a href="{% url 'reporte_ventas' %}"><span aria-hidden="true">▥</span> Libro de ventas</a>
+{% if rol == 'ADMIN' %}<a href="{% url 'configuracion' %}"><span aria-hidden="true">⚙</span> Configuración</a>{% endif %}
+{% if user.is_superuser %}<a href="/admin/"><span aria-hidden="true">⚙</span> Administración</a>{% endif %}
+</nav>
+<div class="sidebar-bottom"><span class="status-dot"></span> Entorno académico<div class="small mt-2 text-white-50">OSE simulado · Sin validez tributaria</div></div>
+</aside><div class="main-shell">
+<header class="topbar"><button type="button" class="btn btn-outline-secondary d-lg-none" id="menu-toggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir menú">☰</button>
+<span class="breadcrumb-label">Workspace <span>/</span> {{ titulo|default:'Facturación' }}</span>
+<div class="d-flex align-items-center gap-3 ms-auto">
+{% if empresas %}<form action="{% url 'seleccionar_empresa' %}" method="post" class="company-switch">{% csrf_token %}<label class="visually-hidden" for="empresa-id">Empresa activa</label><select id="empresa-id" name="empresa_id" class="form-select form-select-sm" onchange="this.form.submit()">{% for e in empresas %}<option value="{{ e.pk }}" {% if e.pk == empresa_activa.pk %}selected{% endif %}>{{ e.nombre_comercial|default:e.razon_social }}</option>{% endfor %}</select></form>{% endif %}
+<span class="user-avatar" title="{{ user.username }}">{{ user.username|first|upper }}</span><div class="user-info"><strong>{{ user.username }}</strong><small>{{ rol }}</small></div>
+<form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-secondary" aria-label="Cerrar sesión">Salir</button></form>
+</div></header>
+<main id="contenido" class="page-content">
+{% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }}" role="alert">{{ message }}</div>{% endfor %}
+<div id="global-message" role="alert" class="alert d-none" tabindex="-1"></div>
+{% block content %}{% endblock %}
+<footer class="page-footer">Nexo · Facturación electrónica <span>Proyecto académico / PEN · Perú</span></footer>
+</main></div></div>
+<script src="{% static 'facturacion/js/app.js' %}" defer></script>{% block scripts %}{% endblock %}
+</body></html>

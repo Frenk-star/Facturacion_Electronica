@@ -1,0 +1,2699 @@
+openapi: 3.0.3
+info:
+  title: Facturación académica SUNAT
+  version: 1.0.0
+  description: API multiempresa con OSE simulado. Sin validez tributaria.
+paths:
+  /api/boletas/:
+    post:
+      operationId: boletas_create
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - boletas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comprobante'
+          description: ''
+  /api/clientes/:
+    get:
+      operationId: clientes_list
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - clientes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedClienteList'
+          description: ''
+    post:
+      operationId: clientes_create
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      tags:
+      - clientes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+          description: ''
+  /api/clientes/{id}/:
+    get:
+      operationId: clientes_retrieve
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este cliente.
+        required: true
+      tags:
+      - clientes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+          description: ''
+    put:
+      operationId: clientes_update
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este cliente.
+        required: true
+      tags:
+      - clientes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+          description: ''
+    patch:
+      operationId: clientes_partial_update
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este cliente.
+        required: true
+      tags:
+      - clientes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCliente'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCliente'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCliente'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+          description: ''
+    delete:
+      operationId: clientes_destroy
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este cliente.
+        required: true
+      tags:
+      - clientes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/clientes/{id}/historial/:
+    get:
+      operationId: clientes_historial_retrieve
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este cliente.
+        required: true
+      tags:
+      - clientes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+          description: ''
+  /api/comprobantes/:
+    get:
+      operationId: comprobantes_list
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedComprobanteList'
+          description: ''
+  /api/comprobantes/{id}/:
+    get:
+      operationId: comprobantes_retrieve
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este comprobante.
+        required: true
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comprobante'
+          description: ''
+  /api/comprobantes/{id}/emitir/:
+    post:
+      operationId: comprobantes_emitir_create
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este comprobante.
+        required: true
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comprobante'
+          description: ''
+  /api/comprobantes/{id}/historial/:
+    get:
+      operationId: comprobantes_historial_list
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este comprobante.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHistorialEstadoList'
+          description: ''
+  /api/comprobantes/{id}/logs/:
+    get:
+      operationId: comprobantes_logs_list
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este comprobante.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLogEnvioSUNATList'
+          description: ''
+  /api/comprobantes/{id}/pdf/:
+    get:
+      operationId: comprobantes_pdf_retrieve
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este comprobante.
+        required: true
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+          description: ''
+  /api/comprobantes/{id}/reenviar/:
+    post:
+      operationId: comprobantes_reenviar_create
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este comprobante.
+        required: true
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReenvioInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReenvioInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReenvioInput'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comprobante'
+          description: ''
+  /api/comprobantes/{id}/xml/:
+    get:
+      operationId: comprobantes_xml_retrieve
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este comprobante.
+        required: true
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                type: string
+          description: ''
+  /api/comprobantes/emitir-boleta/:
+    post:
+      operationId: comprobantes_emitir_boleta_create
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comprobante'
+          description: ''
+  /api/comprobantes/emitir-factura/:
+    post:
+      operationId: comprobantes_emitir_factura_create
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - comprobantes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comprobante'
+          description: ''
+  /api/empresas/:
+    get:
+      operationId: empresas_list
+      description: Edita la empresa activa; crear/eliminar empresas exige superusuario.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - empresas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEmpresaList'
+          description: ''
+  /api/empresas/{id}/:
+    get:
+      operationId: empresas_retrieve
+      description: Edita la empresa activa; crear/eliminar empresas exige superusuario.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este empresa.
+        required: true
+      tags:
+      - empresas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empresa'
+          description: ''
+    put:
+      operationId: empresas_update
+      description: Edita la empresa activa; crear/eliminar empresas exige superusuario.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este empresa.
+        required: true
+      tags:
+      - empresas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Empresa'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empresa'
+          description: ''
+    patch:
+      operationId: empresas_partial_update
+      description: Edita la empresa activa; crear/eliminar empresas exige superusuario.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este empresa.
+        required: true
+      tags:
+      - empresas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEmpresa'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEmpresa'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEmpresa'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empresa'
+          description: ''
+  /api/facturas/:
+    post:
+      operationId: facturas_create
+      description: Expone documentos inmutables y acciones explícitas de negocio.
+      parameters:
+      - in: query
+        name: cliente
+        schema:
+          type: string
+      - in: query
+        name: estado
+        schema:
+          type: string
+      - in: query
+        name: fecha_desde
+        schema:
+          type: string
+      - in: query
+        name: fecha_hasta
+        schema:
+          type: string
+      - in: query
+        name: ruc_cliente
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - facturas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmitirComprobanteInput'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comprobante'
+          description: ''
+  /api/membresias/:
+    get:
+      operationId: membresias_list
+      description: Gestiona roles dentro de la empresa activa sin permisos globales.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - membresias
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMembresiaList'
+          description: ''
+    post:
+      operationId: membresias_create
+      description: Gestiona roles dentro de la empresa activa sin permisos globales.
+      tags:
+      - membresias
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membresia'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Membresia'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Membresia'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membresia'
+          description: ''
+  /api/membresias/{id}/:
+    get:
+      operationId: membresias_retrieve
+      description: Gestiona roles dentro de la empresa activa sin permisos globales.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este membresia.
+        required: true
+      tags:
+      - membresias
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membresia'
+          description: ''
+    put:
+      operationId: membresias_update
+      description: Gestiona roles dentro de la empresa activa sin permisos globales.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este membresia.
+        required: true
+      tags:
+      - membresias
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membresia'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Membresia'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Membresia'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membresia'
+          description: ''
+    patch:
+      operationId: membresias_partial_update
+      description: Gestiona roles dentro de la empresa activa sin permisos globales.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este membresia.
+        required: true
+      tags:
+      - membresias
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMembresia'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMembresia'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMembresia'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membresia'
+          description: ''
+    delete:
+      operationId: membresias_destroy
+      description: Gestiona roles dentro de la empresa activa sin permisos globales.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este membresia.
+        required: true
+      tags:
+      - membresias
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/notas-credito/:
+    get:
+      operationId: notas_credito_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - notas-credito
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNotaCreditoList'
+          description: ''
+    post:
+      operationId: notas_credito_create
+      tags:
+      - notas-credito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotaCreditoInput'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NotaCreditoInput'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NotaCreditoInput'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotaCredito'
+          description: ''
+  /api/notas-credito/{id}/:
+    get:
+      operationId: notas_credito_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este nota credito.
+        required: true
+      tags:
+      - notas-credito
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotaCredito'
+          description: ''
+  /api/productos/:
+    get:
+      operationId: productos_list
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - productos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductoList'
+          description: ''
+    post:
+      operationId: productos_create
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      tags:
+      - productos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Producto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Producto'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+          description: ''
+  /api/productos/{id}/:
+    get:
+      operationId: productos_retrieve
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este producto.
+        required: true
+      tags:
+      - productos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+          description: ''
+    put:
+      operationId: productos_update
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este producto.
+        required: true
+      tags:
+      - productos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Producto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Producto'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+          description: ''
+    patch:
+      operationId: productos_partial_update
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este producto.
+        required: true
+      tags:
+      - productos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProducto'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProducto'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProducto'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+          description: ''
+    delete:
+      operationId: productos_destroy
+      description: Mantenimiento aislado con desactivación en lugar de borrado físico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este producto.
+        required: true
+      tags:
+      - productos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/reportes/dashboard/:
+    get:
+      operationId: reportes_dashboard_retrieve
+      description: Comparte el libro mensual entre JSON y exportaciones descargables.
+      tags:
+      - reportes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+          description: ''
+  /api/reportes/ventas-por-periodo/:
+    get:
+      operationId: reportes_ventas_por_periodo_retrieve
+      description: Comparte el libro mensual entre JSON y exportaciones descargables.
+      parameters:
+      - in: query
+        name: anio
+        schema:
+          type: integer
+      - in: query
+        name: formato
+        schema:
+          type: string
+      - in: query
+        name: mes
+        schema:
+          type: integer
+      tags:
+      - reportes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibroVentas'
+          description: ''
+  /api/series/:
+    get:
+      operationId: series_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - series
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSerieComprobanteList'
+          description: ''
+    post:
+      operationId: series_create
+      tags:
+      - series
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerieComprobante'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SerieComprobante'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SerieComprobante'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SerieComprobante'
+          description: ''
+  /api/series/{id}/:
+    get:
+      operationId: series_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este serie comprobante.
+        required: true
+      tags:
+      - series
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SerieComprobante'
+          description: ''
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/usuarios/:
+    get:
+      operationId: usuarios_list
+      description: Administra cuentas del ámbito local; desactivar revoca la membresía
+        local.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - usuarios
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUsuarioList'
+          description: ''
+    post:
+      operationId: usuarios_create
+      description: Administra cuentas del ámbito local; desactivar revoca la membresía
+        local.
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+  /api/usuarios/{id}/:
+    get:
+      operationId: usuarios_retrieve
+      description: Administra cuentas del ámbito local; desactivar revoca la membresía
+        local.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - usuarios
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    put:
+      operationId: usuarios_update
+      description: Administra cuentas del ámbito local; desactivar revoca la membresía
+        local.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    patch:
+      operationId: usuarios_partial_update
+      description: Administra cuentas del ámbito local; desactivar revoca la membresía
+        local.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    delete:
+      operationId: usuarios_destroy
+      description: Administra cuentas del ámbito local; desactivar revoca la membresía
+        local.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - usuarios
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Cliente:
+      type: object
+      description: Ejecuta las validaciones de dominio también para escrituras REST.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        activo:
+          type: boolean
+        tipo_doc:
+          $ref: '#/components/schemas/TipoDocEnum'
+        num_doc:
+          type: string
+          maxLength: 15
+        razon_social:
+          type: string
+          maxLength: 255
+        direccion:
+          type: string
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        empresa:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - direccion
+      - empresa
+      - id
+      - num_doc
+      - razon_social
+      - tipo_doc
+    Comprobante:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        empresa:
+          type: integer
+          nullable: true
+        serie:
+          type: string
+          maxLength: 4
+        numero:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+        fecha:
+          type: string
+          format: date-time
+          readOnly: true
+        cliente:
+          type: integer
+        cliente_nombre:
+          type: string
+          readOnly: true
+        cliente_num_doc:
+          type: string
+          readOnly: true
+        tipo:
+          $ref: '#/components/schemas/ComprobanteTipoEnum'
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        igv:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        estado:
+          $ref: '#/components/schemas/EstadoEnum'
+        detalles:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetalleComprobante'
+          readOnly: true
+        saldo_disponible:
+          type: number
+          format: double
+          readOnly: true
+      required:
+      - cliente
+      - cliente_nombre
+      - cliente_num_doc
+      - detalles
+      - fecha
+      - id
+      - igv
+      - saldo_disponible
+      - serie
+      - subtotal
+      - tipo
+      - total
+    ComprobanteTipoEnum:
+      enum:
+      - '01'
+      - '03'
+      - '07'
+      type: string
+      description: |-
+        * `01` - Factura
+        * `03` - Boleta
+        * `07` - Nota de crédito
+    ConteoEstado:
+      type: object
+      properties:
+        estado:
+          type: string
+        cantidad:
+          type: integer
+      required:
+      - cantidad
+      - estado
+    ConteoTipo:
+      type: object
+      properties:
+        tipo:
+          type: string
+        cantidad:
+          type: integer
+      required:
+      - cantidad
+      - tipo
+    Dashboard:
+      type: object
+      properties:
+        mes:
+          type: integer
+        anio:
+          type: integer
+        resumen:
+          $ref: '#/components/schemas/ResumenVentas'
+        comprobantes:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilaVenta'
+        estados:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConteoEstado'
+        tipos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConteoTipo'
+      required:
+      - anio
+      - comprobantes
+      - estados
+      - mes
+      - resumen
+      - tipos
+    DetalleComprobante:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        producto:
+          type: integer
+        producto_nombre:
+          type: string
+          readOnly: true
+        cantidad:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        descuento:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        igv_linea:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+      required:
+      - cantidad
+      - id
+      - igv_linea
+      - precio_unitario
+      - producto
+      - producto_nombre
+      - subtotal
+    EmitirComprobanteInput:
+      type: object
+      properties:
+        empresa_id:
+          type: integer
+        cliente_id:
+          type: integer
+          minimum: 1
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemInput'
+        borrador:
+          type: boolean
+          default: false
+        serie:
+          type: string
+          maxLength: 4
+        resultado_mock:
+          allOf:
+          - $ref: '#/components/schemas/ResultadoMockEnum'
+          default: ACEPTADO
+        clave_idempotencia:
+          type: string
+          maxLength: 100
+      required:
+      - cliente_id
+      - items
+    Empresa:
+      type: object
+      description: Ejecuta las validaciones de dominio también para escrituras REST.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ruc:
+          type: string
+          pattern: ^\d{11}$
+          maxLength: 11
+        razon_social:
+          type: string
+          maxLength: 255
+        nombre_comercial:
+          type: string
+          nullable: true
+          maxLength: 255
+        direccion:
+          type: string
+        regimen_tributario:
+          type: string
+          maxLength: 50
+      required:
+      - direccion
+      - id
+      - razon_social
+      - regimen_tributario
+      - ruc
+    EstadoEnum:
+      enum:
+      - BORRADOR
+      - EMITIDO
+      - ENVIADO
+      - ACEPTADO
+      - RECHAZADO
+      type: string
+      description: |-
+        * `BORRADOR` - Borrador
+        * `EMITIDO` - Emitido
+        * `ENVIADO` - Enviado
+        * `ACEPTADO` - Aceptado
+        * `RECHAZADO` - Rechazado
+    FilaVenta:
+      type: object
+      description: Describe una fila contable con signo negativo para créditos.
+      properties:
+        id:
+          type: integer
+        fecha:
+          type: string
+          format: date
+        tipo:
+          type: string
+        documento:
+          type: string
+        cliente:
+          type: string
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+        igv:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+      required:
+      - cliente
+      - documento
+      - fecha
+      - id
+      - igv
+      - subtotal
+      - tipo
+      - total
+    HistorialEstado:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        anterior:
+          type: string
+          maxLength: 15
+        estado:
+          $ref: '#/components/schemas/EstadoEnum'
+        fecha:
+          type: string
+          format: date-time
+          readOnly: true
+        comprobante:
+          type: integer
+        usuario:
+          type: integer
+          nullable: true
+      required:
+      - comprobante
+      - estado
+      - fecha
+      - id
+    ItemInput:
+      type: object
+      properties:
+        producto_id:
+          type: integer
+          minimum: 1
+        cantidad:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        descuento:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          default: '0.00'
+      required:
+      - cantidad
+      - producto_id
+    LibroVentas:
+      type: object
+      properties:
+        mes:
+          type: integer
+        anio:
+          type: integer
+        resumen:
+          $ref: '#/components/schemas/ResumenVentas'
+        comprobantes:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilaVenta'
+      required:
+      - anio
+      - comprobantes
+      - mes
+      - resumen
+    LogEnvioSUNAT:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        fecha_envio:
+          type: string
+          format: date-time
+          readOnly: true
+        estado_respuesta:
+          type: string
+          maxLength: 20
+        codigo_respuesta:
+          type: string
+          maxLength: 10
+        descripcion:
+          type: string
+        comprobante:
+          type: integer
+      required:
+      - codigo_respuesta
+      - comprobante
+      - descripcion
+      - estado_respuesta
+      - fecha_envio
+      - id
+    Membresia:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        rol:
+          $ref: '#/components/schemas/RolEnum'
+        activo:
+          type: boolean
+        usuario:
+          type: integer
+        empresa:
+          type: integer
+          readOnly: true
+      required:
+      - empresa
+      - id
+      - rol
+      - usuario
+    NotaCredito:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        motivo:
+          type: string
+        tipo_nota:
+          type: string
+          maxLength: 5
+        monto_afectado:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        fecha_emision:
+          type: string
+          format: date-time
+          readOnly: true
+        comprobante:
+          type: integer
+          nullable: true
+        comprobante_referencia:
+          type: integer
+      required:
+      - comprobante_referencia
+      - fecha_emision
+      - id
+      - monto_afectado
+      - motivo
+      - tipo_nota
+    NotaCreditoInput:
+      type: object
+      properties:
+        comprobante_id:
+          type: integer
+          minimum: 1
+        motivo:
+          type: string
+          maxLength: 1000
+        tipo_nota:
+          $ref: '#/components/schemas/TipoNotaEnum'
+        monto_afectado:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        clave_idempotencia:
+          type: string
+          maxLength: 100
+        resultado_mock:
+          allOf:
+          - $ref: '#/components/schemas/ResultadoMockEnum'
+          default: ACEPTADO
+      required:
+      - comprobante_id
+      - monto_afectado
+      - motivo
+      - tipo_nota
+    PaginatedClienteList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cliente'
+    PaginatedComprobanteList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comprobante'
+    PaginatedEmpresaList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Empresa'
+    PaginatedHistorialEstadoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistorialEstado'
+    PaginatedLogEnvioSUNATList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LogEnvioSUNAT'
+    PaginatedMembresiaList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Membresia'
+    PaginatedNotaCreditoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotaCredito'
+    PaginatedProductoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Producto'
+    PaginatedSerieComprobanteList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SerieComprobante'
+    PaginatedUsuarioList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Usuario'
+    PatchedCliente:
+      type: object
+      description: Ejecuta las validaciones de dominio también para escrituras REST.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        activo:
+          type: boolean
+        tipo_doc:
+          $ref: '#/components/schemas/TipoDocEnum'
+        num_doc:
+          type: string
+          maxLength: 15
+        razon_social:
+          type: string
+          maxLength: 255
+        direccion:
+          type: string
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        empresa:
+          type: integer
+          readOnly: true
+          nullable: true
+    PatchedEmpresa:
+      type: object
+      description: Ejecuta las validaciones de dominio también para escrituras REST.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ruc:
+          type: string
+          pattern: ^\d{11}$
+          maxLength: 11
+        razon_social:
+          type: string
+          maxLength: 255
+        nombre_comercial:
+          type: string
+          nullable: true
+          maxLength: 255
+        direccion:
+          type: string
+        regimen_tributario:
+          type: string
+          maxLength: 50
+    PatchedMembresia:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        rol:
+          $ref: '#/components/schemas/RolEnum'
+        activo:
+          type: boolean
+        usuario:
+          type: integer
+        empresa:
+          type: integer
+          readOnly: true
+    PatchedProducto:
+      type: object
+      description: Ejecuta las validaciones de dominio también para escrituras REST.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        activo:
+          type: boolean
+        codigo:
+          type: string
+          maxLength: 50
+        descripcion:
+          type: string
+        unidad_medida:
+          type: string
+          maxLength: 10
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        afecto_igv:
+          type: boolean
+        empresa:
+          type: integer
+          readOnly: true
+          nullable: true
+    PatchedUsuario:
+      type: object
+      description: Crea cuentas locales sin conceder privilegios globales de Django.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Nombre de usuario
+          description: 'Requerido. 150 carácteres como máximo. Únicamente letras,
+            dígitos y @/./+/-/_ '
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Dirección de correo electrónico
+          maxLength: 254
+        first_name:
+          type: string
+          title: Nombre
+          maxLength: 150
+        last_name:
+          type: string
+          title: Apellidos
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        rol:
+          allOf:
+          - $ref: '#/components/schemas/RolEnum'
+          writeOnly: true
+        rol_empresa:
+          type: string
+          readOnly: true
+    Producto:
+      type: object
+      description: Ejecuta las validaciones de dominio también para escrituras REST.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        activo:
+          type: boolean
+        codigo:
+          type: string
+          maxLength: 50
+        descripcion:
+          type: string
+        unidad_medida:
+          type: string
+          maxLength: 10
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        afecto_igv:
+          type: boolean
+        empresa:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - codigo
+      - descripcion
+      - empresa
+      - id
+      - precio_unitario
+      - unidad_medida
+    ReenvioInput:
+      type: object
+      description: Selecciona únicamente el resultado del procesamiento simulado.
+      properties:
+        resultado_mock:
+          allOf:
+          - $ref: '#/components/schemas/ResultadoMockEnum'
+          default: ACEPTADO
+    ResultadoMockEnum:
+      enum:
+      - ACEPTADO
+      - RECHAZADO
+      type: string
+      description: |-
+        * `ACEPTADO` - ACEPTADO
+        * `RECHAZADO` - RECHAZADO
+    ResumenVentas:
+      type: object
+      properties:
+        total_subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+        total_igv:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+        total_ventas:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+        notas_credito:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+        cantidad_comprobantes:
+          type: integer
+        rechazados:
+          type: integer
+      required:
+      - cantidad_comprobantes
+      - notas_credito
+      - rechazados
+      - total_igv
+      - total_subtotal
+      - total_ventas
+    RolEnum:
+      enum:
+      - ADMIN
+      - EMISOR
+      - CONTADOR
+      type: string
+      description: |-
+        * `ADMIN` - Administrador
+        * `EMISOR` - Emisor
+        * `CONTADOR` - Contador
+    SerieComprobante:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tipo:
+          $ref: '#/components/schemas/SerieComprobanteTipoEnum'
+        serie:
+          type: string
+          maxLength: 4
+        correlativo_actual:
+          type: integer
+          readOnly: true
+        empresa:
+          type: integer
+          readOnly: true
+      required:
+      - correlativo_actual
+      - empresa
+      - id
+      - serie
+      - tipo
+    SerieComprobanteTipoEnum:
+      enum:
+      - F
+      - B
+      - FC
+      type: string
+      description: |-
+        * `F` - Factura
+        * `B` - Boleta
+        * `FC` - Nota de Crédito/Débito
+    TipoDocEnum:
+      enum:
+      - RUC
+      - DNI
+      - CE
+      type: string
+      description: |-
+        * `RUC` - RUC
+        * `DNI` - DNI
+        * `CE` - Carné de Extranjería
+    TipoNotaEnum:
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '06'
+      - '07'
+      type: string
+      description: |-
+        * `01` - 01
+        * `02` - 02
+        * `03` - 03
+        * `06` - 06
+        * `07` - 07
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    Usuario:
+      type: object
+      description: Crea cuentas locales sin conceder privilegios globales de Django.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Nombre de usuario
+          description: 'Requerido. 150 carácteres como máximo. Únicamente letras,
+            dígitos y @/./+/-/_ '
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Dirección de correo electrónico
+          maxLength: 254
+        first_name:
+          type: string
+          title: Nombre
+          maxLength: 150
+        last_name:
+          type: string
+          title: Apellidos
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        rol:
+          allOf:
+          - $ref: '#/components/schemas/RolEnum'
+          writeOnly: true
+        rol_empresa:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - rol_empresa
+      - username
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

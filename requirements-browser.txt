@@ -1,0 +1,2 @@
+# Dependencias opcionales para pruebas reales de interfaz.
+playwright>=1.50,<2

@@ -1,5 +1,6 @@
 # Entorno Virtual
 venv/
+.venv/
 env/
 ENV/
 env.bak/
@@ -18,6 +19,18 @@ db.sqlite3
 # Variables de entorno y secretos
 .env
 .env.local
+.env.*
+!.env.example
+.private/
+.aws/
+.ssh/
+*.key
+*.pem
+*.p12
+*.pfx
+*.sqlite3-*
+*.sql
+*.log
 
 # Archivos de configuración de IDEs / Editores
 .vscode/
@@ -28,3 +41,15 @@ db.sqlite3
 # Archivos de SO
 .DS_Store
 Thumbs.db
+.runtime/
+python-runtime.zip
+/Facturacion_Electronica_publico.zip
+.env
+db.sqlite3
+htmlcov/
+.coverage
+coverage.xml
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+staticfiles/

@@ -1,0 +1,18 @@
+[tool.ruff]
+line-length = 100
+exclude = [".runtime", "facturacion/migrations"]
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+[tool.black]
+line-length = 100
+extend-exclude = "(.runtime|migrations)"
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "FacturacionSunat.settings"
+python_files = ["tests.py", "test_*.py"]
+testpaths = ["facturacion"]
+[tool.coverage.run]
+source = ["facturacion"]
+omit = ["*/migrations/*", "*/tests.py", "*/test_*.py"]
+[tool.coverage.report]
+fail_under = 60
+show_missing = true

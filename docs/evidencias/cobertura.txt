@@ -1,0 +1,25 @@
+Name                                           Stmts   Miss  Cover   Missing
+----------------------------------------------------------------------------
+facturacion\__init__.py                            0      0   100%
+facturacion\admin.py                              66      3    95%   58, 74, 77
+facturacion\apps.py                                5      0   100%
+facturacion\exceptions.py                         29      0   100%
+facturacion\forms.py                              17      0   100%
+facturacion\management\__init__.py                 0      0   100%
+facturacion\management\commands\__init__.py        0      0   100%
+facturacion\management\commands\seed_demo.py      42      0   100%
+facturacion\models.py                            147     19    87%   27, 43, 75, 78, 105, 168-178, 190, 228, 234, 237, 252, 275, 295, 308
+facturacion\ose_mock.py                           10      0   100%
+facturacion\pdf_utils.py                          30      0   100%
+facturacion\permissions.py                        25      1    96%   30
+facturacion\reportes.py                           58      1    98%   65
+facturacion\serializers.py                       173      2    99%   56, 298
+facturacion\services.py                          164      5    97%   155, 185, 242, 298, 341
+facturacion\signals.py                            26      2    92%   13-14
+facturacion\urls.py                               16      0   100%
+facturacion\views.py                             225     16    93%   88, 117-118, 139-143, 162, 176-177, 195-199, 212, 336
+facturacion\web_urls.py                            4      0   100%
+facturacion\web_views.py                         130      8    94%   132-134, 223-224, 261-263
+facturacion\xml_utils.py                          58      0   100%
+----------------------------------------------------------------------------
+TOTAL                                           1225     57    95%
